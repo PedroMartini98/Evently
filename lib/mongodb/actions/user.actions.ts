@@ -6,10 +6,7 @@ import { connectToDB } from "../database";
 import User from "../database/models/user.model";
 import Event from "../database/models/event.model";
 import Order from "../database/models/order.model";
-import { trusted } from "mongoose";
-import { error } from "console";
 import { revalidatePath } from "next/cache";
-import { json } from "stream/consumers";
 
 export async function createUser(user: CreateUserParams) {
   try {
