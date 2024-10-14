@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "../ui/input";
-import { formSchema } from "./validator";
 import { eventDefaultValues } from "@/constants";
 import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
@@ -35,8 +34,8 @@ type EventFormProps = {
 const EventForm = ({ userId, type }: EventFormProps) => {
   const [file, setFile] = useState<File[]>([]);
   const initialValues = eventDefaultValues;
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof eventFormSchema>>({
+    resolver: zodResolver(eventFormSchema),
     defaultValues: initialValues,
   });
   const onSubmit = (values: z.infer<typeof eventFormSchema>) => {
@@ -222,7 +221,7 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                   <div className="flex-center h-[54px] w-full overflow-hidden rounded-full bg-grey-50 px-4 py-2">
                     <Image
                       alt="Dollar"
-                      src="/assets/icons/Dollar.svg"
+                      src="/assets/icons/dollar.svg"
                       height={24}
                       width={24}
                     />
@@ -247,6 +246,8 @@ const EventForm = ({ userId, type }: EventFormProps) => {
                                 is Free?
                               </label>
                               <Checkbox
+                                onCheckedChange={field.onChange}
+                                checked={field.value}
                                 id="isFree"
                                 className="h-5 w-5 mr-2 border-2 border-primary-500"
                               />

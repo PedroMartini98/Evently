@@ -19,6 +19,7 @@ export function FileUploader({
 }: FileUploaderProps) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles);
+    onFieldChange(convertFileToUrl(acceptedFiles[0]));
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
