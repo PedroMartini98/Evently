@@ -4,6 +4,7 @@ import {
   CreateEventParams,
   DeleteEventParams,
   GetAllEventsParams,
+  UpdateEventParams,
 } from "@/types";
 import { handleError } from "@/lib/utils";
 import { connectToDB } from "../database";
@@ -12,17 +13,14 @@ import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 import { revalidatePath } from "next/cache";
 
-export const populateEvent = async (query: any) => {
-  return query.populate({
-    path: "organizer",
-    model: User,
-    select: "_id firstName lastName",
-  });
-  return query.populate({
-    path: "category",
-    model: Category,
-    select: "_id  name",
-  });
+const populateEvent = (query: any) => {
+  return query
+    .populate({
+      path: "organizer",
+      model: User,
+      select: "_id firstName lastName",
+    })
+    .populate({ path: "category", model: Category, select: "_id name" });
 };
 
 export const createEvent = async ({
@@ -110,6 +108,28 @@ export const deleteEvent = async ({ eventId, path }: DeleteEventParams) => {
     }
 
     return JSON.parse(JSON.stringify(event));
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const updateEvent = async ({
+  path,
+  userId,
+  event,
+}: UpdateEventParams) => {
+  try {
+    await connectToDB();
+
+    const updatedEvent = await Event.findByIdAndUpdate(
+      event._id,
+      { ...event, category: event.categoryId },
+      { new: true }
+    );
+
+    revalidatePath(path);
+
+    return JSON.parse(JSON.stringify(updatedEvent));
   } catch (error) {
     handleError(error);
   }
