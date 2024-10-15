@@ -29,16 +29,22 @@ import { Router } from "next/router";
 import { handleError } from "@/lib/utils";
 import { useRouter } from "next/navigation";
 import { createEvent } from "@/lib/mongodb/actions/event.actions";
+import { IEvents } from "@/lib/mongodb/database/models/event.model";
 // import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
 type EventFormProps = {
   userId: string;
   type: "Create" | "Update";
+  event?: IEvents;
+  eventId?: string;
 };
 
-const EventForm = ({ userId, type }: EventFormProps) => {
+const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
   const [files, setFiles] = useState<File[]>([]);
-  const initialValues = eventDefaultValues;
+  const initialValues =
+    event && type === "Update"
+      ? { ...event, startDateTime: new Date(event.startTimeDate) }
+      : eventDefaultValues;
   const { startUpload } = useUploadThing("imageUploader");
   const router = useRouter();
   const form = useForm<z.infer<typeof eventFormSchema>>({

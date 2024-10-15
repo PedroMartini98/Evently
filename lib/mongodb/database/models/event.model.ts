@@ -1,14 +1,15 @@
 import { model, models, Schema, Document, Model } from "mongoose";
 
 export interface IEvents extends Document {
+  startTimeDate: string | number | Date;
   _id: string;
   title: string;
   description?: string;
   location?: string;
   createdAt: Date;
   imageUrl: string;
-  startTimeDate: Date;
-  endTimeDate: Date;
+  startDateTime: Date;
+  endDateTime: Date;
   price?: string;
   isFree: boolean;
   url?: string;
@@ -22,8 +23,8 @@ const EventSchema = new Schema<IEvents>({
   location: { type: String },
   createdAt: { type: Date, default: Date.now },
   imageUrl: { type: String, required: true },
-  startTimeDate: { type: Date, default: Date.now },
-  endTimeDate: { type: Date, default: Date.now },
+  startDateTime: { type: Date, default: Date.now },
+  endDateTime: { type: Date, default: Date.now },
   price: { type: String },
   isFree: { type: Boolean, default: false },
   url: { type: String },
