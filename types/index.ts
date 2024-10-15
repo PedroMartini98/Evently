@@ -50,3 +50,15 @@ export type CreateEventParams = {
   };
   path: string;
 };
+
+export type GetAllEventsParams = {
+  query: string;
+  limit: number;
+  page: number;
+  category: string;
+};
+
+export type DeleteEventParams = {
+  eventId: string;
+  path: string;
+};
