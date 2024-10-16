@@ -1,13 +1,14 @@
 import { IEvents } from "@/lib/mongodb/database/models/event.model";
-import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
+import { IOrder } from "@/lib/mongodb/database/models/order.model";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import Checkout from "./Checkout";
+import { auth } from "@clerk/nextjs/server";
 
 const CheckoutButton = ({ event }: { event: IEvents }) => {
-  const { user } = useUser();
-  const userId = user?.publicMetadata.userId as string;
+  const { userId } = auth();
   const isEventFinished = new Date(event.endDateTime) < new Date();
 
   return (
@@ -22,7 +23,7 @@ const CheckoutButton = ({ event }: { event: IEvents }) => {
             </Button>
           </SignedOut>
           <SignedIn>
-            <Checkout event={event} userId={userId} />
+            {/* <Checkout event={event} userId={userId} /> */}
           </SignedIn>
         </>
       )}
