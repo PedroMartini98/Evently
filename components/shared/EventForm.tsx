@@ -56,8 +56,6 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     defaultValues: initialValues,
   });
   const onSubmit = async (values: z.infer<typeof eventFormSchema>) => {
-    const eventData = values;
-
     let uploadedImageUrl = values.imageUrl;
 
     if (files.length > 0) {
@@ -176,7 +174,7 @@ const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
                   <FileUploader
                     onFieldChange={field.onChange}
                     imageUrl={field.value}
-                    setFile={setFiles}
+                    setFiles={setFiles}
                   />
                 </FormControl>
                 <FormMessage />

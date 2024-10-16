@@ -25,7 +25,7 @@ const Header = () => {
           </nav>
         </SignedIn>
 
-        <div className="flex w-32 justify-end gap-3">
+        <nav className="flex w-32 justify-end gap-3">
           <SignedIn>
             <UserButton />
             <MobNav />
@@ -35,7 +35,7 @@ const Header = () => {
               <Link href={"/sign-in"}>Login</Link>
             </Button>
           </SignedOut>
-        </div>
+        </nav>
       </div>
     </header>
   );

@@ -24,19 +24,13 @@ import {
   getAllCategories,
 } from "@/lib/mongodb/actions/category.actions";
 type DropdownProps = {
-  value: string;
-  onChangeHandler: () => void;
+  value?: string;
+  onChangeHandler?: () => void;
 };
 
 const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [newCategory, setNewCategory] = useState("");
-
-  const handleAddCategory = () => {
-    createCategory({ categoryName: newCategory.trim() }).then((category) => {
-      setCategories((prevState) => [...prevState, category]);
-    });
-  };
 
   useEffect(() => {
     const getCategories = async () => {
@@ -46,7 +40,15 @@ const Dropdown = ({ value, onChangeHandler }: DropdownProps) => {
     };
 
     getCategories();
-  });
+  }, []);
+
+  const handleAddCategory = () => {
+    createCategory({
+      categoryName: newCategory.trim(),
+    }).then((category) => {
+      setCategories((prevState) => [...prevState, category]);
+    });
+  };
 
   return (
     <Select onValueChange={onChangeHandler} defaultValue={value}>
