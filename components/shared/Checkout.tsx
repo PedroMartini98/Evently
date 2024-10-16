@@ -1,3 +1,4 @@
+"use client";
 import { IEvents } from "@/lib/mongodb/database/models/event.model";
 import React, { useEffect } from "react";
 import { Button } from "../ui/button";
