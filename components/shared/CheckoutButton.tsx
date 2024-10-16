@@ -1,5 +1,5 @@
 import { IEvents } from "@/lib/mongodb/database/models/event.model";
-import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
+import { SignedIn, SignedOut, useUser } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
