@@ -1,9 +1,11 @@
 " user server";
 
 import { handleError } from "@/lib/utils";
-import { CheckoutOrderParams } from "@/types";
+import { CheckoutOrderParams, CreateOrderParams } from "@/types";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
+import { connectToDB } from "../database";
+import Order from "../database/models/order.model";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -33,6 +35,22 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
       cancel_url: `${process.env.NEXT_PUBLIC_SERVER_URL}/`,
     });
     redirect(session.url!);
+  } catch (error) {
+    handleError(error);
+  }
+};
+
+export const createOrder = async (order: CreateOrderParams) => {
+  try {
+    await connectToDB();
+
+    const newOrder = await Order.create({
+      ...order,
+      event: order.eventId,
+      buyer: order.buyerId,
+    });
+
+    return JSON.parse(JSON.stringify(newOrder));
   } catch (error) {
     handleError(error);
   }
