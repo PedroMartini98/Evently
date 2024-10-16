@@ -15,16 +15,6 @@ import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 import { revalidatePath } from "next/cache";
 
-const populateEvent = (query: any) => {
-  return query
-    .populate({
-      path: "organizer",
-      model: User,
-      select: "_id firstName lastName",
-    })
-    .populate({ path: "category", model: Category, select: "_id name" });
-};
-
 export const createEvent = async ({
   event,
   userId,
@@ -54,7 +44,17 @@ export const getEventById = async (eventId: string) => {
   try {
     await connectToDB();
 
-    const event = populateEvent(Event.findById(eventId));
+    const event = Event.findById(eventId)
+      .populate({
+        path: "organizer",
+        model: User,
+        select: "_id firstName lastName",
+      })
+      .populate({
+        path: "category",
+        model: Category,
+        select: "_id  name",
+      });
     if (!event) {
       console.log("Event not found");
       return;
@@ -82,7 +82,17 @@ export const getAllEvents = async ({
       .skip(0)
       .limit(limit);
 
-    const events = await populateEvent(eventQuery);
+    const events = await eventQuery
+      .populate({
+        path: "organizer",
+        model: User,
+        select: "_id firstName lastName",
+      })
+      .populate({
+        path: "category",
+        model: Category,
+        select: "_id  name",
+      });
     const eventsCount = await Event.countDocuments(conditions);
 
     return {
@@ -155,7 +165,17 @@ export const getRelatedEventsByCategory = async ({
       .skip(skipAmount)
       .limit(limit);
 
-    const events = await populateEvent(eventsQuery);
+    const events = await eventsQuery
+      .populate({
+        path: "organizer",
+        model: User,
+        select: "_id firstName lastName",
+      })
+      .populate({
+        path: "category",
+        model: Category,
+        select: "_id  name",
+      });
     const eventsCount = await Event.countDocuments(conditions);
 
     return {
@@ -180,13 +200,21 @@ export const getEventsByUser = async ({
     const eventsOrganized = await Event.find(conditions)
       .sort({ createdAt: "desc" })
       .skip(skipAmount)
-      .limit(limit);
-
-    const events = await populateEvent(eventsOrganized);
+      .limit(limit)
+      .populate({
+        path: "organizer",
+        model: User,
+        select: "_id firstName lastName",
+      })
+      .populate({
+        path: "category",
+        model: Category,
+        select: "_id  name",
+      });
     const eventsCount = await Event.countDocuments(conditions);
 
     return {
-      data: JSON.parse(JSON.stringify(events)),
+      data: JSON.parse(JSON.stringify(eventsOrganized)),
       totalPages: Math.ceil(eventsCount / limit),
     };
   } catch (error) {
