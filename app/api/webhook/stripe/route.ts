@@ -2,7 +2,7 @@ import stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createOrder } from "@/lib/mongodb/actions/order.actions";
 
-export async function POST(request: Request) {
+export async function POST(request: any) {
   const body = await request.text();
 
   const sig = request.headers.get("stripe-signature") as string;
