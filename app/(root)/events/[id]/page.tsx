@@ -36,8 +36,8 @@ const EventDetails = async ({
               <h2 className="h2-bold">{event.title}</h2>
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <div className="flex gap-3">
-                  <p className="p-bold-20 rounded-full bg-green-500/10 px-5 py-2 text-green-700">
-                    {event.isFree ? "Free" : `${event.price}`}
+                  <p className="p-bold-20 overflow-visible rounded-full line-clamp-1 bg-green-500/10 px-5 py-2 text-green-700">
+                    {event.isFree ? "Free" : `R$ ${event.price}`}
                   </p>
                   <p
                     className="p-medium-16 rounded-full bg-grey-500/10

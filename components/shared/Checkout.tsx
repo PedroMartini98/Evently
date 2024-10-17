@@ -5,23 +5,25 @@ import { Button } from "../ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 import { checkoutOrder } from "@/lib/mongodb/actions/order.actions";
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_PUBLISHABLE_KEY!);
-
-useEffect(() => {
-  // Check to see if this is a redirect back from Checkout
-  const query = new URLSearchParams(window.location.search);
-  if (query.get("success")) {
-    console.log("Order placed! You will receive an email confirmation.");
-  }
-
-  if (query.get("canceled")) {
-    console.log(
-      "Order canceled -- continue to shop around and checkout when you’re ready."
-    );
-  }
-}, []);
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+);
 
 const Checkout = ({ event, userId }: { event: IEvents; userId: string }) => {
+  useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get("success")) {
+      console.log("Order placed! You will receive an email confirmation.");
+    }
+
+    if (query.get("canceled")) {
+      console.log(
+        "Order canceled -- continue to shop around and checkout when you’re ready."
+      );
+    }
+  }, []);
+
   const onCheckout = async () => {
     const order = {
       eventTitle: event.title,

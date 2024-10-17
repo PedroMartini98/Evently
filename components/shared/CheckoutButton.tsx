@@ -10,7 +10,9 @@ import { auth } from "@clerk/nextjs/server";
 const CheckoutButton = ({ event }: { event: IEvents }) => {
   const { userId } = auth();
   const isEventFinished = new Date(event.endDateTime) < new Date();
-
+  if (!userId) {
+    throw new Error("User is not authenticated.");
+  }
   return (
     <div className="flex items-center gap-3">
       {isEventFinished ? (
@@ -23,7 +25,7 @@ const CheckoutButton = ({ event }: { event: IEvents }) => {
             </Button>
           </SignedOut>
           <SignedIn>
-            {/* <Checkout event={event} userId={userId} /> */}
+            <Checkout event={event} userId={userId} />
           </SignedIn>
         </>
       )}

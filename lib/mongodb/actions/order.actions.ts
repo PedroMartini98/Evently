@@ -1,11 +1,11 @@
-" user server";
+"use server";
 
 import { handleError } from "@/lib/utils";
 import { CheckoutOrderParams, CreateOrderParams } from "@/types";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
 import { connectToDB } from "../database";
-import Order from "../database/models/order.model";
+import Order from "@/lib/mongodb/database/models/order.model";
 
 export const checkoutOrder = async (order: CheckoutOrderParams) => {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
@@ -17,7 +17,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
         {
           // Provide the exact Price ID (for example, pr_1234) of the product you want to sell
           price_data: {
-            currency: "brl",
+            currency: "usd",
             unit_amount: price,
             product_data: {
               name: order.eventTitle,
@@ -36,7 +36,7 @@ export const checkoutOrder = async (order: CheckoutOrderParams) => {
     });
     redirect(session.url!);
   } catch (error) {
-    handleError(error);
+    throw error;
   }
 };
 
