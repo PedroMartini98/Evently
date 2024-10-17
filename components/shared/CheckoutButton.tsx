@@ -1,6 +1,6 @@
 import { IEvents } from "@/lib/mongodb/database/models/event.model";
 import { IOrder } from "@/lib/mongodb/database/models/order.model";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, useAuth, useUser } from "@clerk/nextjs";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import Checkout from "./Checkout";
 import { auth } from "@clerk/nextjs/server";
 
 const CheckoutButton = ({ event }: { event: IEvents }) => {
-  const { userId } = auth();
+  const { userId } = useAuth();
   const isEventFinished = new Date(event.endDateTime) < new Date();
   if (!userId) {
     throw new Error("User is not authenticated.");
