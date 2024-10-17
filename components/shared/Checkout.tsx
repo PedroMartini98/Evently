@@ -5,9 +5,7 @@ import { Button } from "../ui/button";
 import { loadStripe } from "@stripe/stripe-js";
 import { checkoutOrder } from "@/lib/mongodb/actions/order.actions";
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
-);
+loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const Checkout = ({ event, userId }: { event: IEvents; userId: string }) => {
   useEffect(() => {
@@ -32,12 +30,10 @@ const Checkout = ({ event, userId }: { event: IEvents; userId: string }) => {
       isFree: event.isFree,
       buyerId: userId,
     };
-
-    await checkoutOrder(order);
   };
 
   return (
-    <form action={onCheckout}>
+    <form action={onCheckout} method="post">
       <Button type="submit" role="link" size="lg" className="button sm:w-fit">
         {event.isFree ? "Get Your Free Ticket" : "Buy Ticktes"}
       </Button>
