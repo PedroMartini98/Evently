@@ -13,6 +13,3 @@ const UserSchema = new Schema({
 const User = models.User || model("User", UserSchema);
 
 export default User;
-
-// Ok tem que descobrir como cobrar first name e last name no clerkClient
-//  e ver se da pra criar conta sem o google e ver se isso reslvo pra criar order

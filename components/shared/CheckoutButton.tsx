@@ -27,14 +27,7 @@ const CheckoutButton = ({ event }: { event: IEvents }) => {
           </SignedOut>
 
           <SignedIn>
-            <Checkout event={event} userId={userId!} />
-            <button
-              onClick={() => {
-                console.log(user);
-              }}
-            >
-              socorro Deus
-            </button>
+            <Checkout event={event} userId={userId} />
           </SignedIn>
         </>
       )}
