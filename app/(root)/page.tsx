@@ -5,6 +5,7 @@ import Link from "next/link";
 import { getAllEvents } from "@/lib/mongodb/actions/event.actions";
 import Search from "@/components/shared/Search";
 import { SearchParamProps } from "@/types";
+import CategoryFilter from "@/components/shared/CategoryFilter";
 
 export default async function Home({ searchParams }: SearchParamProps) {
   const searchText = (searchParams?.query as string) || "";
@@ -51,7 +52,8 @@ export default async function Home({ searchParams }: SearchParamProps) {
           Trusted by <br /> Thounsands Of Events
         </h2>
         <div className="flex w-full flex-col gap-5 md:flex-row">
-          <Search /> Category filter
+          <Search />
+          <CategoryFilter />
         </div>
         <Collection
           data={events?.data}
