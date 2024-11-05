@@ -33,8 +33,6 @@ const Checkout = ({ event, userId }: { event: IEvents; userId: string }) => {
     await checkoutOrder(order);
   };
 
-  // VER PORQUE O METADATA NÃO TA INDO NA CRIAÇÃO DE USUARIO
-
   return (
     <form action={onCheckout} method="post">
       <Button type="submit" role="link" size="lg" className="button sm:w-fit">
