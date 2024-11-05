@@ -15,6 +15,10 @@ import Event from "../database/models/event.model";
 import Category from "../database/models/category.model";
 import { revalidatePath } from "next/cache";
 
+const getCategoryByName = async (name: string) => {
+  return Category.findOne({ name: { $regex: name, $options: "i" } });
+};
+
 export const createEvent = async ({
   event,
   userId,
@@ -76,7 +80,18 @@ export const getAllEvents = async ({
   try {
     await connectToDB();
 
-    const conditions = {};
+    const titleCondition = query
+      ? { title: { $regex: query, $options: "i" } }
+      : {};
+    const categoryCondition = category
+      ? await getCategoryByName(category)
+      : null;
+    const conditions = {
+      $and: [
+        titleCondition,
+        categoryCondition ? { category: categoryCondition._id } : {},
+      ],
+    };
 
     const eventQuery = Event.find(conditions)
       .sort({ createdAt: "desc" })
